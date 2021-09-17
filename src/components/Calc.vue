@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <input class="input" type="number" placeholder="операнд1" v-model.number="operand1"/>
-      <input class="input" type="number" placeholder="операнд2" v-model.number="operand2" />
+      <input class="input" type="number" placeholder="operand1" v-model.number="operand1"/>
+      <input class="input" type="number" placeholder="operand2" v-model.number="operand2" />
     </div>
     <div class="error">
         {{ error }}
@@ -11,15 +11,15 @@
     <div class="buttons">
         <button class="btn" v-for="btn in buttons" 
                 :key="btn"
-                v-bind:title="btn"
+                :title="btn"
                 @click="calculate(btn)"
         >
                 {{ btn }}
         </button>
     </div>
-   
+
     <div class="result">
-    result : {{ result }}
+    result : {{ result.toFixed(2) }}
     </div>
 
     <div class="check">
@@ -41,9 +41,9 @@
 
         <div class="radio">
             <input type="radio" v-model="radio" v-bind:key="operand1" value="operand1">
-            <label>Операнд 1</label>
+            <label>Operand 1</label>
             <input type="radio" v-model="radio" v-bind:key="operand2" value="operand2">
-            <label>Операнд 2</label>
+            <label>Operand 2</label>
         </div> 
 
     </div>
@@ -54,9 +54,6 @@
 <script>
 export default {
   name: "Calc",
-  props: {
-    key: String 
-  },
   
   data:()=>({
     operand1: "",
@@ -67,7 +64,7 @@ export default {
     dKey: "Del",
     error: "",
     checked: true,
-    text: "Отобразить экранную клавиатуру",
+    text: "Show On-Screen Keyboard",
     radio: "",
     test: ""
     }),
@@ -88,12 +85,10 @@ export default {
 
         addNumber(key){
             // this.$emit(key)
-            // this[this.radio] = key
             this[this.radio] = +(this[this.radio] += String(key))  
         },
 
         removeNum() {
-            // this.key.splice(key)
             // this[this.radio] = this.key.splice(idx,1); 
             // this.$delete(this.key, idx) 
             this[this.radio]= +String(this[this.radio]).slice(0,-1)
@@ -154,6 +149,11 @@ export default {
 .check{
     margin-block: 20px;
 }
+
+.check span {
+    padding-left: 10px;
+}
+
 .radio {
     margin-top: 20px;
     font-weight: 700;
