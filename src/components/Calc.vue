@@ -1,61 +1,103 @@
 <template>
   <div>
     <div>
-      <input type="number" placeholder="op1" v-model.number="operand1" />
-      <input type="number" placeholder="op2" v-model.number="operand2" />
+      <input class="input" type="number" placeholder="операнд1" v-model.number="operand1"/>
+      <input class="input" type="number" placeholder="операнд2" v-model.number="operand2" />
     </div>
-    <div class="error" v-if="error">
-        Ошибка: {{ error }}
+    <div class="error">
+        {{ error }}
     </div>
-    <div class="btns">
-      <button class="btn" @click="add">+</button>
-      <button class="btn" @click="substract">-</button>
-      <button class="btn" @click="multiply">*</button>
-      <button class="btn" @click="divide">/</button>
-      <button class="btn" @click="divideRound">round</button>
-      <button class="btn" @click="pow">pow</button>
+
+    <div class="buttons">
+        <button class="btn" v-for="btn in buttons" 
+                :key="btn"
+                v-bind:title="btn"
+                @click="calculate(btn)"
+        >
+                {{ btn }}
+        </button>
     </div>
+   
     <div class="result">
-    result : {{ sum }}
+    result : {{ result }}
     </div>
+
+    <div class="check">
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <span v-html="text"></span>
+    </div>
+
+     <div class="keyboard" v-if="checked">
+        <button class="key" v-for="key in keyboard"
+            :key="key"
+            v-bind:value="key"
+            @click="addNumber(key)"
+            >
+                {{ key }}
+        </button>
+        <button class="key" :key:="dKey" @click="removeNum">
+            {{ dKey }}
+        </button>
+
+        <div class="radio">
+            <input type="radio" v-model="radio" v-bind:key="operand1" value="operand1">
+            <label>Операнд 1</label>
+            <input type="radio" v-model="radio" v-bind:key="operand2" value="operand2">
+            <label>Операнд 2</label>
+        </div> 
+
+    </div>
+
   </div>
 </template>
 
 <script>
 export default {
   name: "Calc",
-  data: () => ({
-    operand1: 0,
-    operand2: 0,
-    sum: 0,
-    error: ""
-  }),
+  props: {
+    key: String 
+  },
+  
+  data:()=>({
+    operand1: "",
+    operand2: "",
+    result: 0,
+    buttons: ['+','-','*','/','round', 'pow'],
+    keyboard: [1,2,3,4,5,6,7,8,9,0],
+    dKey: "Del",
+    error: "",
+    checked: true,
+    text: "Отобразить экранную клавиатуру",
+    radio: "",
+    test: ""
+    }),
 
   methods: {
-    // const { operand1, operand2 } = this
-    add(){
-        this.sum = this.operand1 + this.operand2
-    },
-    substract(){
-        this.sum = this.operand1 - this.operand2
-    },
-    multiply(){
-        this.sum = this.operand1 * this.operand2
-    },
-    divide() {
-        if(this.operand2 === 0) {
-            this.error = "На 0 делить нельзя!"
-        } else {
-        this.sum = this.operand1 / this.operand2
+      calculate(op){
         this.error = ""
-        } 
-    },
-    divideRound() {
-            this.sum = Math.round(this.operand1 / this.operand2)
-    },
-    pow() {
-        this.sum = Math.pow(this.operand1, this.operand2)
-    }
+        const calcOperations = {
+            '+': ()=> this.operand1 + this.operand2,
+            '-': ()=> this.operand1 - this.operand2,
+            '*': ()=> this.operand1 * this.operand2,
+            '/': ()=> (this.operand2 === 0) ? this.error = 'На 0 делить нельзя!' : this.operand1 / this.operand2,
+            'round': ()=> Math.round(this.operand1 / this.operand2),
+            'pow': ()=> Math.pow(this.operand1, this.operand2)
+        }
+            this.result = calcOperations[op]()
+        },
+
+        addNumber(key){
+            // this.$emit(key)
+            // this[this.radio] = key
+            this[this.radio] = +(this[this.radio] += String(key))  
+        },
+
+        removeNum() {
+            // this.key.splice(key)
+            // this[this.radio] = this.key.splice(idx,1); 
+            // this.$delete(this.key, idx) 
+            this[this.radio]= +String(this[this.radio]).slice(0,-1)
+       }
   }
 }
 </script>
@@ -65,14 +107,13 @@ export default {
     color: red
 }
 
-.btns {
+.buttons {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
 .btn {
     font-size: 14px;
-    font-weight: 700;
 	text-align: center;
 	letter-spacing: 0.04em;
 	color: #FFFFFF;
@@ -92,7 +133,7 @@ export default {
     text-align: center;
 }
 
-input{
+.input{
     text-align: center;
     border: 2px solid gray;
     border-radius: 3px;
@@ -100,6 +141,30 @@ input{
     margin-right: 5px;
     padding: 5px;
     width: 150px;
+}
+
+.key{
+    background-color: cadetblue;
+    margin-right: 5px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.check{
+    margin-block: 20px;
+}
+.radio {
+    margin-top: 20px;
+    font-weight: 700;
+}
+
+.radio label{
+    margin-right: 20px;
+}
+
+.activ{
+    border: 5px solid red;
 }
 
 </style>
