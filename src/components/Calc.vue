@@ -65,7 +65,7 @@ export default {
     error: "",
     checked: true,
     text: "Show On-Screen Keyboard",
-    radio: "",
+    radio: "operand1",
     test: ""
     }),
 
