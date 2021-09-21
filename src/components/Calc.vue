@@ -11,7 +11,7 @@
     <div class="buttons">
         <button class="btn" v-for="btn in buttons" 
                 :key="btn"
-                :title="btn"
+                v-bind:title="btn"
                 @click="calculate(btn)"
         >
                 {{ btn }}
@@ -19,7 +19,7 @@
     </div>
 
     <div class="result">
-    result : {{ result.toFixed(2) }}
+    result : {{ result }}
     </div>
 
     <div class="check">
@@ -54,7 +54,9 @@
 <script>
 export default {
   name: "Calc",
-  
+  props: {
+    key: String 
+  },
   data:()=>({
     operand1: "",
     operand2: "",
