@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <input class="input" type="number" placeholder="operand1" v-model.number="operand1"/>
-      <input class="input" type="number" placeholder="operand2" v-model.number="operand2" />
+      <input class="input" placeholder="operand1" v-model.number="operand1" name="operand1"/>
+      <input class="input" placeholder="operand2" v-model.number="operand2" name="operand2"/>
     </div>
     <div class="error">
         {{ error }}
@@ -12,6 +12,7 @@
         <button class="btn" v-for="btn in buttons" 
                 :key="btn"
                 v-bind:title="btn"
+                :name="btn"
                 @click="calculate(btn)"
         >
                 {{ btn }}
@@ -28,12 +29,13 @@
     </div>
 
      <div class="keyboard" v-if="checked">
-        <button class="key" v-for="key in keyboard"
-            :key="key"
-            v-bind:value="key"
-            @click="addNumber(key)"
+        <button class="key" v-for="num in keyboard"
+            :key="num"
+            :name="num"
+            v-bind:value="num"
+            @click="addNumber(num)"
             >
-                {{ key }}
+                {{ num }}
         </button>
         <button class="key" :key:="dKey" @click="removeNum">
             {{ dKey }}
@@ -55,7 +57,7 @@
 export default {
   name: "Calc",
   props: {
-    key: String 
+    num: String 
   },
   data:()=>({
     operand1: "",
@@ -85,14 +87,11 @@ export default {
             this.result = calcOperations[op]()
         },
 
-        addNumber(key){
-            // this.$emit(key)
-            this[this.radio] = +(this[this.radio] += String(key))  
+        addNumber(num){
+            this[this.radio] = +(this[this.radio] += String(num))  
         },
 
         removeNum() {
-            // this[this.radio] = this.key.splice(idx,1); 
-            // this.$delete(this.key, idx) 
             this[this.radio]= +String(this[this.radio]).slice(0,-1)
        }
   }
