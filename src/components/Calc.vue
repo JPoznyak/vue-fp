@@ -42,9 +42,9 @@
         </button>
 
         <div class="radio">
-            <input type="radio" v-model="radio" v-bind:key="operand1" value="operand1">
+            <input type="radio" v-model="radio" v-bind:key="operand1" value="1">
             <label>Operand 1</label>
-            <input type="radio" v-model="radio" v-bind:key="operand2" value="operand2">
+            <input type="radio" v-model="radio" v-bind:key="operand2" value="2">
             <label>Operand 2</label>
         </div> 
 
