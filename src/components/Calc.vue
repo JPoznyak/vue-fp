@@ -37,7 +37,7 @@
             >
                 {{ num }}
         </button>
-        <button class="key" :key:="dKey" @click="removeNum">
+        <button class="key" @click="removeNum">
             {{ dKey }}
         </button>
 

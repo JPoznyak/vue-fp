@@ -68,11 +68,11 @@ describe("Test Calc", () => {
 
     it("Test keyboard", () => {
         const wrapper = mount(Calc);
-        const selectedOperand = wrapper.find("input[value=operand1]");
+        const selectedOperand = wrapper.find("input[value=perand1]");
         const operationBtn = wrapper.find("button[name=num]");
-        await selectedOperand.setChecked();
+        selectedOperand.setChecked();
         operationBtn.trigger('click');
-        expect(wrapper.vm.$data.operand1).toBe('');
+        expect(wrapper.vm.$data.operand1).toBe("");
     });
 });
 
